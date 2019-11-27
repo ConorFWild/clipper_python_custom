@@ -568,7 +568,7 @@ class _CModule(_CompiledCode):
             return None
         import sys
         if sys.platform == "linux":
-            extra_link_args.append("-Wl,-rpath,$ORIGIN")
+            extra_link_args.append("-Wl,-rpath,\$ORIGIN")
         return Extension(package + '.' + self.name,
                          define_macros=macros,
                          extra_compile_args=cpp_flags+self.compile_arguments,
@@ -671,7 +671,7 @@ class _CLibrary(_CompiledCode):
             else:
                 # On Linux, we only need the .so
                 lib = compiler.library_filename(lib_name, lib_type="shared")
-                extra_link_args.append("-Wl,-rpath,$ORIGIN")
+                extra_link_args.append("-Wl,-rpath,\$ORIGIN")
                 compiler.link_shared_object(objs, lib, output_dir=output_dir,
                                             extra_preargs=extra_link_args,
                                             debug=debug)

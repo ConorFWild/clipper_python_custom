@@ -120,7 +120,7 @@ void numpy_export_core_(const Xmap<T>& xmap, py::array_t<T> target, const Coord_
 }
 
 template<typename T>
-void numpy_import_core_(const Xmap<T>& xmap, py::array_t<T> vals, const Coord_grid& origin)
+void numpy_import_core_(Xmap<T>& xmap, py::array_t<T> vals, const Coord_grid& origin)
 {
     auto vbuf = vals.request();
     T* vptr = (T*)vbuf.ptr;
@@ -157,7 +157,16 @@ void add_xmap_numpy_functions(py::class_<C, Xmap_base>& pyclass)
         .def("export_section_numpy", [](const C& self, const Coord_grid& origin, py::array_t<T> target )
         { numpy_export_core_(self, target, origin); })
         // TODO: decide how to handle imports
-        //.def("import_numpy", [](C& self, py::array_t<T> vals))
+        .def("import_numpy",
+        		[](C& self, py::array_t<T> vals)
+				{
+    				const Coord_grid origin = Coord_grid(0, 0, 0);
+
+    				numpy_import_core_(self,
+    						vals,
+							origin);
+        		}
+    )
         ;
 }
 
