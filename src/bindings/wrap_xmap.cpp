@@ -198,6 +198,7 @@ void apply_xmap_interpolation_methods(py::class_<Derived, Xmap_base>& pyclass)
             self.template interp_curv<Interp_cubic>(pos, val, grad, curv);
             return py::make_tuple(val, grad, curv);
         })
+
         ;
 } // apply_xmap_interpolation_methods
 

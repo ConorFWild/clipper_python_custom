@@ -33,6 +33,7 @@ void declare_ccp4mapfile(py::module& m)
 
 	.def("export_xmap_float", [](CCP4MAPfile& self, Xmap<float>& xmap) { self.export_xmap(xmap); })
 	.def("export_nxmap_float", [](CCP4MAPfile& self, NXmap<float>& nxmap) { self.export_nxmap(nxmap); })
+	.def("set_cell", [](CCP4MAPfile& self, const Cell& cell){self.set_cell(cell); })
   
 //	.def("import_hkl_info", &CCP4MAPfile::import_hkl_info)
         //.def("import_hkl_info", [](CCP4MAPfile& self, HKL_info& target) { self.import_hkl_info(target, true); })

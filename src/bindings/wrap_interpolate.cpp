@@ -25,9 +25,24 @@ void interpolate(clipper::NXmap<float>& nxmap, clipper::Xmap<float>& xmap) {
 }
 
 void init_interpolate(py::module &m) {
-	m.def("interpolate", &interpolate, "A function for interpolating onto a nxmap");
+	m.def("interpolate", &interpolate, "A function for interpolating onto a nxmap")
+	.def("rotate_translate", [](clipper::Xmap<float>& base, clipper::Xmap<float>& target, RTop_orth& rtop){
+		typedef clipper::Xmap<float>::Map_reference_index NRI;
+		typedef clipper::Interp_linear INTERP;
+
+		for ( NRI inx = base.first(); !inx.last(); inx.next() ) {
+					clipper::Coord_orth co = inx.coord_orth();
+					clipper::Coord_orth co_transformed = rtop * co;
+					target[inx] = base.interp<INTERP>( base.coord_map( co_transformed ) );
+			}
+	;});
 
 }
+
+
+
+
+
 
 /*
 void interpolate(char* mtz_path, float* origin, float* rotation, float* grid_dimensions, float grid_step) {
